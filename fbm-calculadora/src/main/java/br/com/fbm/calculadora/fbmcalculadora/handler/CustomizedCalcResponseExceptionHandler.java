@@ -22,7 +22,7 @@ public class CustomizedCalcResponseExceptionHandler extends ResponseEntityExcept
         WebRequest pRequest){
         
         ExceptionResponse exception = new ExceptionResponse(
-            new Date(), pException.getMessage(), pRequest.getDescription(false));
+            new Date(), pException.getMessage(), pRequest.getDescription(false), "Cause by Exception.class");
 
         return new ResponseEntity<>(exception, HttpStatus.INTERNAL_SERVER_ERROR);
 
@@ -33,7 +33,8 @@ public class CustomizedCalcResponseExceptionHandler extends ResponseEntityExcept
         WebRequest pRequest){
 
             ExceptionResponse exception = new ExceptionResponse(
-                new Date(), pException.getMessage(), pRequest.getDescription(false));
+                new Date(), pException.getMessage(), pRequest.getDescription(false),
+                "Caused by br.com.fbm.calculadora.fbmcalculadora.exception.UnsupportedCalcException");
 
             return new ResponseEntity<>(exception, HttpStatus.BAD_REQUEST);
 

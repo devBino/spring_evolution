@@ -16,10 +16,14 @@ public class CalcController {
     public Double sum(
         @PathVariable(value="numberOne") String pNumberOne,
         @PathVariable(value="numberTwo") String pNumberTwo)
-            throws UnsupportedCalcException {
+            throws Exception, UnsupportedCalcException {
 
-        if(!isNumeric(pNumberOne) || !isNumeric(pNumberTwo)){
+        if(!isNumeric(pNumberOne)){
             throw new UnsupportedCalcException("Please set a numeric value");
+        }
+
+        if(!isNumeric(pNumberTwo)){
+            throw new Exception("Please set a numeric value");
         }
 
         return convertToDouble(pNumberOne)  + convertToDouble(pNumberTwo);
