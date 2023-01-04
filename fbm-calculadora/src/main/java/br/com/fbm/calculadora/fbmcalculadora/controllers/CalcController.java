@@ -1,50 +1,121 @@
 package br.com.fbm.calculadora.fbmcalculadora.controllers;
 
+import java.util.Arrays;
+import java.util.List;
+
+import javax.print.attribute.standard.Media;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fbm.calculadora.fbmcalculadora.exception.UnsupportedCalcException;
+import br.com.fbm.calculadora.fbmcalculadora.model.ResultModel;
+import br.com.fbm.calculadora.fbmcalculadora.repositories.ConverterNumber;
 
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 public class CalcController {
+
+    private static final String MSG_ERRO_NUMEROS = "Please set a numeric value";
+
+    @Autowired
+    private ConverterNumber converter;
+
+    @RequestMapping(value = "/list/{size}", 
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public List<ResultModel> listNumbers(
+        @PathVariable(value = "size") int pSize
+    ){
+        
+        List<ResultModel> results = Arrays.asList(
+            new ResultModel(10D, 10D, 20D, '+'),
+            new ResultModel(10D, 10D, 0D, '-')
+        );
+
+        return results;
+        
+    }
     
     @RequestMapping(value = "/sum/{numberOne}/{numberTwo}",
-        method=RequestMethod.GET)
-    public Double sum(
+        method=RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResultModel sum(
         @PathVariable(value="numberOne") String pNumberOne,
         @PathVariable(value="numberTwo") String pNumberTwo)
             throws Exception, UnsupportedCalcException {
 
-        if(!isNumeric(pNumberOne)){
-            throw new UnsupportedCalcException("Please set a numeric value");
-        }
+        Double calc = executeCalc(pNumberOne, pNumberTwo, '+');
 
-        if(!isNumeric(pNumberTwo)){
-            throw new Exception("Please set a numeric value");
-        }
+        ResultModel result = new ResultModel(converter.convertToDouble(pNumberOne), 
+            converter.convertToDouble(pNumberTwo), calc, '+');
 
-        return convertToDouble(pNumberOne)  + convertToDouble(pNumberTwo);
+        return result;
 
     }
 
-    private boolean isNumeric(String pNumber){
-        if(pNumber == null) return false;
-        String convertNumber = pNumber.replace(",", ".");
-        return convertNumber.matches("[-+]?[0-9]*\\.?[0-9]+");
+    @RequestMapping(value = "/sub/{numberOne}/{numberTwo}", method = RequestMethod.GET)
+    public Double sub(
+        @PathVariable(value = "numberOne") String pNumberOne,
+        @PathVariable(value = "numberTwo") String pNumberTwo
+    ) throws UnsupportedCalcException {
+
+        return executeCalc(pNumberOne, pNumberTwo, '-');
+
     }
 
-    private Double convertToDouble(String pNumber){
+    @RequestMapping(value = "/div/{numberOne}/{numberTwo}", method = RequestMethod.GET)
+    public Double div(
+        @PathVariable(value = "numberOne") String pNumberOne,
+        @PathVariable(value = "numberTwo") String pNumberTwo
+    ) throws UnsupportedCalcException {
+    
+        return executeCalc(pNumberOne, pNumberTwo, '/');
         
-        if(pNumber == null) return 0D;
+    }
 
-        String convertNumber = pNumber.replace(",", ".");
+    @RequestMapping(value = "/mul/{numberOne}/{numberTwo}", method = RequestMethod.GET)
+    public Double mul(
+        @PathVariable(value = "numberOne") String pNumberOne,
+        @PathVariable(value = "numberTwo") String pNumberTwo
+    ) throws UnsupportedCalcException {
 
-        if(isNumeric(convertNumber)) return Double.parseDouble(convertNumber);
+        return executeCalc(pNumberOne, pNumberTwo, '*');
 
-        return 0D;
+    }
+
+    private Double executeCalc(String pNumberOne, String pNumberTwo, char pSinal){
+
+        if( !converter.isNumeric(pNumberOne) || !converter.isNumeric(pNumberTwo) ){
+            throw new UnsupportedCalcException(MSG_ERRO_NUMEROS);
+        }
+        
+        Double result = 0D;
+
+        switch(pSinal){
+
+            case '+':
+                result = converter.convertToDouble(pNumberOne) + converter.convertToDouble(pNumberTwo);
+                break;
+            case '-':
+                result = converter.convertToDouble(pNumberOne) - converter.convertToDouble(pNumberTwo);
+                break;
+            case '/':
+                result = converter.convertToDouble(pNumberOne) / converter.convertToDouble(pNumberTwo);
+                break;
+            case '*':
+                result = converter.convertToDouble(pNumberOne) * converter.convertToDouble(pNumberTwo);
+                break;
+
+        }
+
+        return result;
 
     }
 
