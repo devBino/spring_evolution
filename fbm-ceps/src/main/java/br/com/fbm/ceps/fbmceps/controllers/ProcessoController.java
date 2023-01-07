@@ -14,42 +14,43 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fbm.ceps.fbmceps.data.vo.v1.CepVO;
-import br.com.fbm.ceps.fbmceps.services.CepService;
+import br.com.fbm.ceps.fbmceps.data.vo.v1.ProcessoVO;
+import br.com.fbm.ceps.fbmceps.services.ProcessoService;
 
 @RestController
-@RequestMapping(value = "/cep")
-public class CepController {
+@RequestMapping(value = "/processo")
+public class ProcessoController {
     
     @Autowired
-    CepService service;
+    ProcessoService service;
 
-    @GetMapping(value = "/ceps", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<CepVO> listar(){
+    @GetMapping(value = "/processos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ProcessoVO> listar(){
         return service.listar();
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public CepVO buscarPorId(@PathVariable(value = "id") long pId){
+    public ProcessoVO buscarPorId(@PathVariable(value = "id") long pId){
         return service.buscarPorId(pId);
     }
 
     @PostMapping(
         consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    public CepVO salvar(@RequestBody CepVO pCepVO){
-        return service.salvar(pCepVO);
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ProcessoVO salvar(@RequestBody ProcessoVO pProcessoVO){
+        return service.salvar(pProcessoVO);
     }
 
     @PutMapping(
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public CepVO atualizar(@RequestBody CepVO pCepVO){
-        return service.atualizar(pCepVO);
+    public ProcessoVO atualizar(@RequestBody ProcessoVO pProcessoVO){
+        return service.atualizar(pProcessoVO);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deletar(@PathVariable(value = "id") long pId){
         service.deletar(pId);
         return ResponseEntity.noContent().build();

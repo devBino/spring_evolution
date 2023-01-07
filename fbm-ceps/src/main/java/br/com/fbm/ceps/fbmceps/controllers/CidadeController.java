@@ -14,39 +14,41 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fbm.ceps.fbmceps.data.vo.v1.CepVO;
-import br.com.fbm.ceps.fbmceps.services.CepService;
+import br.com.fbm.ceps.fbmceps.data.vo.v1.CidadeVO;
+
+import br.com.fbm.ceps.fbmceps.services.CidadeService;
 
 @RestController
-@RequestMapping(value = "/cep")
-public class CepController {
+@RequestMapping(value = "/cidade")
+public class CidadeController {
     
     @Autowired
-    CepService service;
+    CidadeService service;
 
-    @GetMapping(value = "/ceps", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<CepVO> listar(){
+    @GetMapping(value = "/cidades", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<CidadeVO> listar(){
         return service.listar();
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public CepVO buscarPorId(@PathVariable(value = "id") long pId){
+    public CidadeVO buscarPorId(@PathVariable(value = "id") long pId){
         return service.buscarPorId(pId);
     }
 
     @PostMapping(
         consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    public CepVO salvar(@RequestBody CepVO pCepVO){
-        return service.salvar(pCepVO);
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public CidadeVO salvar(@RequestBody CidadeVO pCidadeVO){
+        return service.salvar(pCidadeVO);
     }
 
     @PutMapping(
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public CepVO atualizar(@RequestBody CepVO pCepVO){
-        return service.atualizar(pCepVO);
+    public CidadeVO atualizar(@RequestBody CidadeVO pCidadeVO){
+        return service.atualizar(pCidadeVO);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -55,4 +57,5 @@ public class CepController {
         return ResponseEntity.noContent().build();
     }
 
+    
 }

@@ -14,45 +14,47 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fbm.ceps.fbmceps.data.vo.v1.CepVO;
-import br.com.fbm.ceps.fbmceps.services.CepService;
+import br.com.fbm.ceps.fbmceps.data.vo.v1.FaixaVO;
+import br.com.fbm.ceps.fbmceps.services.FaixaService;
 
 @RestController
-@RequestMapping(value = "/cep")
-public class CepController {
+@RequestMapping(value = "/faixa")
+public class FaixaController {
     
     @Autowired
-    CepService service;
+    FaixaService service;
 
-    @GetMapping(value = "/ceps", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<CepVO> listar(){
+    @GetMapping(value = "/faixas", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<FaixaVO> listar(){
         return service.listar();
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public CepVO buscarPorId(@PathVariable(value = "id") long pId){
+    public FaixaVO buscarPorId(@PathVariable(value = "id") long pId){
         return service.buscarPorId(pId);
     }
 
     @PostMapping(
         consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    public CepVO salvar(@RequestBody CepVO pCepVO){
-        return service.salvar(pCepVO);
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public FaixaVO salvar(@RequestBody FaixaVO pFaixaVO){
+        return service.salvar(pFaixaVO);
     }
 
     @PutMapping(
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public CepVO atualizar(@RequestBody CepVO pCepVO){
-        return service.atualizar(pCepVO);
+    public FaixaVO alterar(@RequestBody FaixaVO pFaixaVO){
+        return service.atualizar(pFaixaVO);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deletar(@PathVariable(value = "id") long pId){
         service.deletar(pId);
         return ResponseEntity.noContent().build();
     }
+
 
 }

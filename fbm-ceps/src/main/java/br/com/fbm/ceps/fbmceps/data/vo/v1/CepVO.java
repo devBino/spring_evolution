@@ -1,55 +1,24 @@
-package br.com.fbm.ceps.fbmceps.models;
+package br.com.fbm.ceps.fbmceps.data.vo.v1;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "tb_cep")
-public class CepModel implements Serializable {
+public class CepVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
-
-    @Column(name = "cep", nullable = false, length = 8)
     private int cep;
-
-    @Column(name = "logradouro", nullable = false)
     private String logradouro;
-
-    @Column(name = "complemento", length = 80)
     private String complemento;
-
-    @Column(name = "bairro", nullable = false)
     private String bairro;
-
-    @Column(name = "localidade", nullable = false)
     private String localidade;
-
-    @Column(name = "uf", nullable = false, length = 2)
     private String uf;
-
-    @Column(name = "ibge", nullable = false, length = 10)
     private int ibge;
-
-    @Column(name = "gia", length = 50)
     private String gia;
-
-    @Column(name = "ddd", nullable = false, length = 10)
     private int ddd;
-
-    @Column(name = "siafi", length = 10)
     private String siafi;
 
-    public CepModel(){}
+    public CepVO(){}
 
     public long getId() {
         return id;
