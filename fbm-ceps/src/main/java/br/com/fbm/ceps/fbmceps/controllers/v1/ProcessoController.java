@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fbm.ceps.fbmceps.data.vo.v1.ProcessoVO;
-import br.com.fbm.ceps.fbmceps.data.vo.v2.ProcessoVOV2;
+
 import br.com.fbm.ceps.fbmceps.services.v1.ProcessoService;
 
 @RestController
@@ -25,7 +25,10 @@ public class ProcessoController {
     @Autowired
     ProcessoService service;
 
-    @GetMapping(value = "/processos", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+        value = "/processos", 
+        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+    )
     public List<ProcessoVO> listar(){
         return service.listar();
     }

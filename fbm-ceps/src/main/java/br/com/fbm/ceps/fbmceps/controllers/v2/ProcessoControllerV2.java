@@ -1,7 +1,11 @@
 package br.com.fbm.ceps.fbmceps.controllers.v2;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +21,25 @@ public class ProcessoControllerV2 {
     @Autowired
     ProcessoServiceV2 service;
 
+    @GetMapping(
+        value = "/processos", 
+        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+    )
+    public List<ProcessoVOV2> listar(){
+        return service.listar();
+    }
+
+    @GetMapping(
+        value = "/{id}",
+        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+    )
+    public ProcessoVOV2 buscarPorId(@PathVariable(value = "id") long pId){
+        return service.buscarPorId(pId);
+    }
+
     @PostMapping(
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE
+        consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
     public ProcessoVOV2 salvar(@RequestBody ProcessoVOV2 pProcessoVOV2){
         return service.salvar(pProcessoVOV2);

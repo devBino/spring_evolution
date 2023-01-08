@@ -24,7 +24,10 @@ public class CepController {
     @Autowired
     CepService service;
 
-    @GetMapping(value = "/ceps", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+        value = "/ceps", 
+        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+    )
     public List<CepVO> listar(){
         return service.listar();
     }

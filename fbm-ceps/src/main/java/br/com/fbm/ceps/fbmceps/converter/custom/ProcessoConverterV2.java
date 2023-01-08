@@ -12,7 +12,7 @@ public class ProcessoConverterV2 {
 
         ProcessoVOV2 processoVO = new ProcessoVOV2();
 
-        processoVO.setId( pProcessoModel.getId() );
+        processoVO.setKey( pProcessoModel.getId() );
         processoVO.setIdFaixa( pProcessoModel.getIdFaixa() );
         processoVO.setDtInicio( pProcessoModel.getDtInicio() );
         processoVO.setDtFim( pProcessoModel.getDtFim() );
@@ -27,7 +27,7 @@ public class ProcessoConverterV2 {
 
         ProcessoModel processoModel = new ProcessoModel();
 
-        processoModel.setId( pProcessoVO.getId() );
+        processoModel.setId( pProcessoVO.getKey() );
         processoModel.setIdFaixa( pProcessoVO.getIdFaixa() );
         processoModel.setDtInicio( pProcessoVO.getDtInicio() );
         processoModel.setDtFim( pProcessoVO.getDtFim() );

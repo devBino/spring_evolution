@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import br.com.fbm.ceps.fbmceps.converter.ConverterVO;
 import br.com.fbm.ceps.fbmceps.converter.custom.ProcessoConverterV2;
 import br.com.fbm.ceps.fbmceps.data.vo.v1.ProcessoVO;
-import br.com.fbm.ceps.fbmceps.data.vo.v2.ProcessoVOV2;
 import br.com.fbm.ceps.fbmceps.models.ProcessoModel;
 import br.com.fbm.ceps.fbmceps.repository.ProcessoRepository;
 

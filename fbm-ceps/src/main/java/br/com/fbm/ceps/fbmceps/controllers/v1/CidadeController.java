@@ -24,7 +24,10 @@ public class CidadeController {
     @Autowired
     CidadeService service;
 
-    @GetMapping(value = "/cidades", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+        value = "/cidades", 
+        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+    )
     public List<CidadeVO> listar(){
         return service.listar();
     }

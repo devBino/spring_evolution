@@ -24,7 +24,10 @@ public class FaixaController {
     @Autowired
     FaixaService service;
 
-    @GetMapping(value = "/faixas", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+        value = "/faixas", 
+        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+    )
     public List<FaixaVO> listar(){
         return service.listar();
     }
