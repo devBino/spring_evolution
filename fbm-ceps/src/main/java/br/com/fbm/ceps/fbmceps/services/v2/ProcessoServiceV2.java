@@ -23,6 +23,14 @@ public class ProcessoServiceV2 {
 
     @Autowired
     ProcessoConverterV2 converterVO;
+
+    public void setRepository(ProcessoRepository pRepository){
+        repository = pRepository;
+    }
+
+    public void setConverter(ProcessoConverterV2 pConverterV2){
+        converterVO = pConverterV2;
+    }
     
     public List<ProcessoVOV2> listar(){
         
@@ -31,7 +39,13 @@ public class ProcessoServiceV2 {
         repository
             .findAll()
             .stream()
-            .forEach(p -> processos.add( converterVO.convertEntityToVo(p) ));
+            .forEach(p -> {
+                
+                ProcessoVOV2 pVOV2 = converterVO.convertEntityToVo(p);
+                addLinks(pVOV2);
+                processos.add(pVOV2);
+
+            });
 
         return processos;
 
@@ -43,19 +57,72 @@ public class ProcessoServiceV2 {
             .orElse(new ProcessoModel());
 
         ProcessoVOV2 processo = converterVO.convertEntityToVo(registro);
-
-        processo.add(
-            linkTo(methodOn(ProcessoControllerV2.class).buscarPorId(pId)).withSelfRel(),
-            linkTo(methodOn(ProcessoControllerV2.class).listar()).withSelfRel()
-            );
-
+        addLinks(processo);
         return processo;
 
     }
 
     public ProcessoVOV2 salvar(ProcessoVOV2 pProcessoVOV2){
+        
         ProcessoModel processo = converterVO.convertVoToEntity(pProcessoVOV2);
-        return converterVO.convertEntityToVo(repository.save(processo));
+        
+        ProcessoVOV2 processoVOV2 = converterVO.convertEntityToVo(repository.save(processo));
+        addLinks(processoVOV2);
+
+        return processoVOV2;
+
+    }
+
+    public ProcessoVOV2 atualizar(ProcessoVOV2 pProcessoVOV2){
+
+        ProcessoModel registro = repository.findById( pProcessoVOV2.getKey() )
+            .orElse(new ProcessoModel());
+
+        ProcessoVOV2 processo = new ProcessoVOV2();
+
+        if( registro.getId() != null ){
+
+            registro.setIdFaixa( pProcessoVOV2.getIdFaixa() );
+            registro.setDescStatus( pProcessoVOV2.getDescStatus() );
+            registro.setDtInicio( pProcessoVOV2.getDtInicio() );
+            registro.setDtFim( pProcessoVOV2.getDtFim() );
+
+            processo = converterVO.convertEntityToVo( 
+                repository.save(registro) );
+
+            addLinks(processo);
+
+            return processo;
+
+        }
+
+        return processo;
+
+    }
+
+    public void deletar(long pId){
+
+        ProcessoModel registro = repository.findById(pId)
+            .orElse(null);
+
+        if( registro != null ){
+            repository.deleteById(registro.getId());
+        }
+
+    }
+
+    private void addLinks(ProcessoVOV2 pProcessoVOV2){
+
+        pProcessoVOV2.add( linkTo(methodOn(ProcessoControllerV2.class).listar()).withSelfRel() );
+        pProcessoVOV2.add( linkTo(methodOn(ProcessoControllerV2.class).atualizar(pProcessoVOV2)).withSelfRel() );
+
+        if( pProcessoVOV2.getKey() != null ){
+            pProcessoVOV2.add( linkTo(methodOn(ProcessoControllerV2.class).buscarPorId(pProcessoVOV2.getKey())).withSelfRel() );
+            pProcessoVOV2.add( linkTo(methodOn(ProcessoControllerV2.class).deletar(pProcessoVOV2.getKey())).withSelfRel() );
+        }
+
+
+
     }
 
 }
