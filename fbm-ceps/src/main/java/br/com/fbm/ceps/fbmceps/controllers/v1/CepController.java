@@ -1,4 +1,4 @@
-package br.com.fbm.ceps.fbmceps.controllers;
+package br.com.fbm.ceps.fbmceps.controllers.v1;
 
 import java.util.List;
 
@@ -14,43 +14,42 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fbm.ceps.fbmceps.data.vo.v1.ProcessoVO;
-import br.com.fbm.ceps.fbmceps.services.ProcessoService;
+import br.com.fbm.ceps.fbmceps.data.vo.v1.CepVO;
+import br.com.fbm.ceps.fbmceps.services.v1.CepService;
 
 @RestController
-@RequestMapping(value = "/processo")
-public class ProcessoController {
+@RequestMapping(value = "/cep/v1")
+public class CepController {
     
     @Autowired
-    ProcessoService service;
+    CepService service;
 
-    @GetMapping(value = "/processos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ProcessoVO> listar(){
+    @GetMapping(value = "/ceps", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<CepVO> listar(){
         return service.listar();
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ProcessoVO buscarPorId(@PathVariable(value = "id") long pId){
+    public CepVO buscarPorId(@PathVariable(value = "id") long pId){
         return service.buscarPorId(pId);
     }
 
     @PostMapping(
         consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ProcessoVO salvar(@RequestBody ProcessoVO pProcessoVO){
-        return service.salvar(pProcessoVO);
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public CepVO salvar(@RequestBody CepVO pCepVO){
+        return service.salvar(pCepVO);
     }
 
     @PutMapping(
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ProcessoVO atualizar(@RequestBody ProcessoVO pProcessoVO){
-        return service.atualizar(pProcessoVO);
+    public CepVO atualizar(@RequestBody CepVO pCepVO){
+        return service.atualizar(pCepVO);
     }
 
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deletar(@PathVariable(value = "id") long pId){
         service.deletar(pId);
         return ResponseEntity.noContent().build();

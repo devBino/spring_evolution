@@ -1,4 +1,4 @@
-package br.com.fbm.ceps.fbmceps.services;
+package br.com.fbm.ceps.fbmceps.services.v1;
 
 import java.util.List;
 
@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.fbm.ceps.fbmceps.converter.ConverterVO;
+import br.com.fbm.ceps.fbmceps.converter.custom.ProcessoConverterV2;
 import br.com.fbm.ceps.fbmceps.data.vo.v1.ProcessoVO;
+import br.com.fbm.ceps.fbmceps.data.vo.v2.ProcessoVOV2;
 import br.com.fbm.ceps.fbmceps.models.ProcessoModel;
 import br.com.fbm.ceps.fbmceps.repository.ProcessoRepository;
 
@@ -15,6 +17,9 @@ public class ProcessoService {
     
     @Autowired
     ProcessoRepository repository;
+
+    @Autowired
+    ProcessoConverterV2 converterVO;
 
     public List<ProcessoVO> listar(){
         return ConverterVO.parseListObjects(repository.findAll(), ProcessoVO.class);

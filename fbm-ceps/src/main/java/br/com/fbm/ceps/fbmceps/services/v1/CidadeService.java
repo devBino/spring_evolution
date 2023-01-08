@@ -1,4 +1,4 @@
-package br.com.fbm.ceps.fbmceps.services;
+package br.com.fbm.ceps.fbmceps.services.v1;
 
 import java.util.List;
 

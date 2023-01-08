@@ -1,4 +1,4 @@
-package br.com.fbm.ceps.fbmceps.controllers;
+package br.com.fbm.ceps.fbmceps.controllers.v1;
 
 import java.util.List;
 
@@ -14,23 +14,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fbm.ceps.fbmceps.data.vo.v1.FaixaVO;
-import br.com.fbm.ceps.fbmceps.services.FaixaService;
+import br.com.fbm.ceps.fbmceps.data.vo.v1.ProcessoVO;
+import br.com.fbm.ceps.fbmceps.data.vo.v2.ProcessoVOV2;
+import br.com.fbm.ceps.fbmceps.services.v1.ProcessoService;
 
 @RestController
-@RequestMapping(value = "/faixa")
-public class FaixaController {
+@RequestMapping(value = "/processo/v1")
+public class ProcessoController {
     
     @Autowired
-    FaixaService service;
+    ProcessoService service;
 
-    @GetMapping(value = "/faixas", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<FaixaVO> listar(){
+    @GetMapping(value = "/processos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ProcessoVO> listar(){
         return service.listar();
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public FaixaVO buscarPorId(@PathVariable(value = "id") long pId){
+    public ProcessoVO buscarPorId(@PathVariable(value = "id") long pId){
         return service.buscarPorId(pId);
     }
 
@@ -38,16 +39,16 @@ public class FaixaController {
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public FaixaVO salvar(@RequestBody FaixaVO pFaixaVO){
-        return service.salvar(pFaixaVO);
+    public ProcessoVO salvar(@RequestBody ProcessoVO pProcessoVO){
+        return service.salvar(pProcessoVO);
     }
 
     @PutMapping(
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public FaixaVO alterar(@RequestBody FaixaVO pFaixaVO){
-        return service.atualizar(pFaixaVO);
+    public ProcessoVO atualizar(@RequestBody ProcessoVO pProcessoVO){
+        return service.atualizar(pProcessoVO);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -55,6 +56,5 @@ public class FaixaController {
         service.deletar(pId);
         return ResponseEntity.noContent().build();
     }
-
 
 }
