@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
 
 import br.com.fbm.ceps.fbmceps.data.vo.v2.ProcessoVOV2;
 import br.com.fbm.ceps.fbmceps.repository.ProcessoRepository;
@@ -37,7 +36,6 @@ public class ProcessoServiceV2Test {
         ProcessoVOV2 pv = service.buscarPorId(74L);
 
         Assertions.assertEquals( false, pv.getLinks().isEmpty(), "Links retornados...");
-
     }
 
     @Test

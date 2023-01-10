@@ -2,11 +2,11 @@ package br.com.fbm.ceps.fbmceps.controllers.v2;
 
 import java.util.List;
 
-import javax.print.attribute.standard.Media;
-
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +26,7 @@ public class ProcessoControllerV2 {
     @Autowired
     ProcessoServiceV2 service;
 
+    @CrossOrigin(origins = "http://localhost:8000")
     @GetMapping(
         value = "/processos", 
         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
@@ -34,6 +35,7 @@ public class ProcessoControllerV2 {
         return service.listar();
     }
 
+    @CrossOrigin(origins = "http://localhost:8000")
     @GetMapping(
         value = "/{id}",
         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
@@ -42,6 +44,7 @@ public class ProcessoControllerV2 {
         return service.buscarPorId(pId);
     }
 
+    @CrossOrigin(origins = "http://localhost:8000")
     @PostMapping(
         consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
